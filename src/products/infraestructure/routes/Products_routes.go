@@ -15,7 +15,7 @@ func Routes(router *gin.Engine) {
 	deleteProduct := dependencies.GetDeleteController().DeleteProduct
 	updateProduct := dependencies.GetUpdateController().Update
 
-	routes.POST("", createProduct)
+	routes.POST("/postTickets", createProduct)
 	routes.GET("/getAllProducts",viewProduct)
 	routes.GET("/getByIdProduct/:id",viewProductById)
 	routes.DELETE("/deleteProduct/:id",deleteProduct)

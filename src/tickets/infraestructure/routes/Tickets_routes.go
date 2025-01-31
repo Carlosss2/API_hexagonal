@@ -15,7 +15,7 @@ func Routes(router *gin.Engine){
 	updateTickets := dependencies.GetUpdateTicketController().Update
 
 
-	routes.POST("",createTicket)
+	routes.POST("/postTicket",createTicket)
 	routes.GET("/getAllTickets",getAllTickets)
 	routes.DELETE("/deleteTicket/:id",deleteTickets)
 	routes.PUT("/updateTicket/:id",updateTickets)
