@@ -15,11 +15,12 @@ func Routes(router *gin.Engine) {
 	deleteProduct := dependencies.GetDeleteController().DeleteProduct
 	updateProduct := dependencies.GetUpdateController().Update
 
-	routes.POST("/postTickets", createProduct)
-	routes.GET("/getAllProducts",viewProduct)
-	routes.GET("/getByIdProduct/:id",viewProductById)
-	routes.DELETE("/deleteProduct/:id",deleteProduct)
-	routes.PUT("/updateProduct/:id",updateProduct)
+	routes.POST("/", createProduct)        // POST /products
+	routes.GET("/", viewProduct)          // GET /products
+	routes.GET("/:id", viewProductById)   // GET /products/:id
+	routes.DELETE("/:id", deleteProduct)  // DELETE /products/:id
+	routes.PUT("/:id", updateProduct)     // PUT /products/:id
+
 }
 
 

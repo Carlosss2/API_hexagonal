@@ -30,5 +30,5 @@ func (createTicket *CreateTicketController) Create(c *gin.Context){
 		return
 		
 	}
-	c.JSON(http.StatusCreated, gin.H{"message": ticket.GetTotal()})
+	c.JSON(http.StatusCreated, gin.H{"message": "ticket registrado"})
 }

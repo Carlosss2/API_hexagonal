@@ -30,7 +30,7 @@ type CreateProductController struct {
 		 	return
 		 }
 	
-		c.JSON(http.StatusCreated, gin.H{"message": product.GetName()})
+		c.JSON(http.StatusCreated, gin.H{"message": "producto registrado con exito"})
 	
 
 	}
