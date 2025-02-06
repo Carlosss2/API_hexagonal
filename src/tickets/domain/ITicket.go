@@ -5,4 +5,5 @@ type ITicket interface{
 	GetAll()([]Ticket,error)
 	Delete(id int32)error
 	Update(id int32,client string,total string)error
+	GetById(id int32)(Ticket,error)
 }

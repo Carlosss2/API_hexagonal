@@ -8,6 +8,8 @@ import (
 	"hexagonal/src/tickets/application"
 	"hexagonal/src/tickets/infraestructure"
 	"hexagonal/src/tickets/infraestructure/controllers"
+
+	
 )
 
 var(
@@ -55,4 +57,10 @@ func GetDeleteTicketController()*controllers.DeleteTicketController{
 func GetUpdateTicketController()*controllers.UpdateTicketController{
 	caseUpdateTicket := application.NewUpdateTicket(&mySQL)
 	return controllers.NewUpdateTicketController(caseUpdateTicket)
+}
+
+
+func GetByIdTicketController()*controllers.GetByIdTicketController{
+	caseGetByIdTicket := application.NewGetByIdTicket(&mySQL)
+	return controllers.NewGetByIdTicketController(caseGetByIdTicket)
 }

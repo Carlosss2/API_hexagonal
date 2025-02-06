@@ -87,3 +87,20 @@ func (mysql *MySQL) Update(id int32,client string,total string) error{
 	fmt.Println("Ticket actualizado")
 	return nil
 }
+
+
+func (mysql *MySQL)GetById(id int32)(domain.Ticket,error){
+	var ticketById domain.Ticket
+	 
+	query := "SELECT id, client, total FROM tickets WHERE id=?"
+	row := mysql.DB.QueryRow(query,id)
+
+	err := row.Scan(&ticketById.Id,&ticketById.Client,&ticketById.Total)
+	if err != nil{
+		if err == sql.ErrNoRows{
+			return ticketById, fmt.Errorf("ticket con id no encontrado:",id)
+		}
+		return ticketById,err
+	}
+	return ticketById,nil
+}
