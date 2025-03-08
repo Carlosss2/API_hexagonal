@@ -2,8 +2,8 @@ package domain
 
 type Product struct {
 	Id int32
-	Name string
-	Price float32
+ 	Name  string  `json:"name"`
+    Price float32 `json:"price"`
 }
 
 func NewProduct(name string,price float32) *Product {

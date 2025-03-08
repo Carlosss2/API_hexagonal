@@ -1,9 +1,12 @@
 package application
 
-import "hexagonal/src/products/domain"
+import (
+	"hexagonal/src/products/domain"
+)
 
 type DeleteProduct struct {
 	db domain.IProduct
+	
 }
 
 func NewDeleteProduct(db domain.IProduct) *DeleteProduct{

@@ -5,59 +5,64 @@ import (
 	"fmt"
 	"hexagonal/src/helpers"
 	"hexagonal/src/products/application"
+	"hexagonal/src/products/application/services"
 	"hexagonal/src/products/infraestructure"
-)
-var(
-	mySQL infraestructure.MySQL
-	db    *sql.DB
+	"hexagonal/src/products/infraestructure/adapters/rabbit"
 )
 
-func Init(){
-	db, err := helpers.ConnectToDB()
+var (
+	mySQL           infraestructure.MySQL
+	db              *sql.DB
+	rabbitMQAdapter *rabbit.RabbitMQAdapter
+)
 
-	if err != nil{
-		fmt.Println("Server error")
+func Init() {
+	var err error
+	db, err = helpers.ConnectToDB()
+	if err != nil {
+		fmt.Println("Error conectando a la base de datos")
 		return
 	}
 
-	
-	
-
 	mySQL = *infraestructure.NewMySQL(db)
-	
 
-	
+	rabbitMQAdapter, err = rabbit.NewRabbitMQAdapter()
+	if err != nil {
+		fmt.Println("Error iniciando RabbitMQ:", err)
+		return
+	}
 }
-
 
 func CloseDB() {
 	if db != nil {
 		db.Close()
 		fmt.Println("Conexión a la base de datos cerrada.")
 	}
+	
 }
 
-
-func GetCreateProductController()*infraestructure.CreateProductController{
-	caseCreateProduct := application.NewCreateProduct(&mySQL)
+func GetCreateProductController() *infraestructure.CreateProductController {
+	serviceNotification := services.NewServiceNotification(rabbitMQAdapter)
+	caseCreateProduct := application.NewCreateProduct(&mySQL, serviceNotification)
 	return infraestructure.NewCreateProductController(caseCreateProduct)
 }
 
-func GetAllProductController()*infraestructure.GetAllProductController{
+func GetAllProductController() *infraestructure.GetAllProductController {
 	caseGetAllProduct := application.NewGetAllProduct(&mySQL)
 	return infraestructure.NewGetAllProductController(*caseGetAllProduct)
 }
-func GetByIdController()*infraestructure.GetByIdProductController{
+
+func GetByIdController() *infraestructure.GetByIdProductController {
 	caseByIdProduct := application.NewGetByIdProduct(&mySQL)
 	return infraestructure.NewGetByIdProductController(caseByIdProduct)
 }
 
-func GetDeleteController()*infraestructure.DeleteProductController{
+func GetDeleteController() *infraestructure.DeleteProductController {
 	caseDelete := application.NewDeleteProduct(&mySQL)
 	return infraestructure.NewDeleteProductController(caseDelete)
 }
 
-func GetUpdateController()*infraestructure.UpdateProductController{
+func GetUpdateController() *infraestructure.UpdateProductController {
 	caseUpdate := application.NewUpdateProduct(&mySQL)
 	return infraestructure.NewUpdateProductController(caseUpdate)
 }
